@@ -1,0 +1,13 @@
+sources:
+  - name: staging                     #name Recommended : Schema Name
+    description: The source system
+    database: test
+    schema: raw
+
+    tables:
+      - name: bookings
+        description : staging booking details
+      - name: hosts
+        description : staging hosts details
+      - name: listings
+        description : staging listings details
