@@ -36,7 +36,31 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  my_new_project:
-    # Applies to all files under models/example/
-    example:
+  DBT-Cloud:
+    bronze:
+      +materialized: view
+      +schema: bronze
+
+    silver:
       +materialized: table
+      +schema: silver
+
+    gold:
+      +materialized: table
+      +schema: gold
+      ephemeral:
+        +materialized: ephemeral
+
+seeds:
+  aws_dbt_snowflake_project:
+    country_codes:  #exaclty same as per file name (excluding .csv)
+      +schema: staging
+      +quote_columns: false
+      +column_types:
+          country_code: string
+          country_name: string
+      +delimiter: ','
+
+tests:
+  +store_failures: true
+
