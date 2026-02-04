@@ -1,0 +1,12 @@
+models:
+
+# we can define this configuration alos in schema.yml
+  - name: bronze_listings
+    config:
+      materialized: table
+      schema: bronze
+
+  - name: bronze_hosts
+    config:
+      materialized: table
+      schema: bronze

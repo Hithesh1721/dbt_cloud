@@ -1,0 +1,13 @@
+models:
+
+# we can define this configuration alos in schema.yml
+  - name: dbt_semantic_view_materilization
+    config:
+      materialized: table
+      schema: gold
+      
+  - name: semantic_view
+    config:
+      materialized: table
+      schema: gold
+

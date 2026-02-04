@@ -1,8 +1,8 @@
 sources:
   - name: staging                     #name Recommended : Schema Name
     description: The source system
-    database: test
-    schema: raw
+    database: dev
+    schema: staging
 
     tables:
       - name: bookings

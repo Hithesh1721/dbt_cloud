@@ -1,0 +1,8 @@
+models:
+
+# we can define this configuration alos in schema.yml
+  - name: obt
+    config:
+      materialized: table
+      schema: gold
+
