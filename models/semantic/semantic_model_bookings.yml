@@ -17,6 +17,7 @@ semantic_models:
     dimensions:
       - name: booking_date
         type: time
+        expr: date_trunc(booking_date,date)
         type_params:
           time_granularity: day
         config:
@@ -26,6 +27,7 @@ semantic_models:
 
       - name: booking_created_at
         type: time
+        expr: date_trunc(booking_created_at,date)
         type_params:
           time_granularity: day
 
