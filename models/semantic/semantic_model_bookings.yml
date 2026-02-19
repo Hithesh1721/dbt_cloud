@@ -35,7 +35,7 @@ semantic_models:
         type: categorical
         expr: booking_status
 
-        - name: booking_date_cat
+      - name: booking_date_cat
         type: categorical
         expr: to_date(booking_date)
 
