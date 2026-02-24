@@ -11,6 +11,7 @@ models:
     semantic_model:
       enabled: true
     agg_time_dimension: booking_date
+    
     columns:
     #Entities
       - name : booking_id
@@ -55,6 +56,47 @@ models:
         numerator: sum_of_booking_amount
         denominator: count_of_bookings
 
+      - name: revenue_p95
+        type: simple
+        agg: percentile
+        expr: booking_amount
+        percentile: 0.95            # 0.95 percent, it will give the booking amount from 1 to 95, Bookings 96, 97, 98, 99, and 100: These people paid more than $3,192. The very last person (the 100th) might have paid $10,000!
+        percentile_type: discrete   # discrite: will give round off value
+      
+      # to get top 5 sum of discrite we need to write saved query booking > revenue_p95
+     
+      # For this we need to write saved query to tell group by
+      - name: d7_booking_change
+        type: derived
+        expr: current_bookings - bookings_7_days_ago
+        input_metrics:
+          - name: sum_of_booking_amount
+            alias: current_bookings
+          - name: sum_of_booking_amount
+            offset_window: 7 days
+            alias: bookings_7_days_ago
+      # to get running sum EG: feb 1= 100, feb 2 = 150(50+100), feb 3 =250 (100+150)
+      - name: revenue_mtd_cumulative
+        type: cumulative
+        input_metric: sum_of_booking_amount
+        #window: 30 days
+        grain_to_date: month
+        #period_agg: last
+
+      - name: yearly_booking_amount
+        type: cumulative
+        input_metric: sum_of_booking_amount
+        grain_to_date: year
+
+      - name: quater_booking_amount
+        type: cumulative
+        input_metric: sum_of_booking_amount
+        grain_to_date: quarter
+
+      - name: day_booking_amount
+        type: cumulative
+        input_metric: sum_of_booking_amount
+        grain_to_date: day
 
 # advanced metrics under top-level metrics key
 metrics:
@@ -89,3 +131,4 @@ metrics:
 #average,Means the daily values,Avg Daily Bookings
 #last,Takes the most recent value,Current Inventory
 #min / max,Takes the lowest/highest value,Peak Daily Sales
+
