@@ -23,11 +23,18 @@ models:
           name: listingid       # this name must be same when joining 2 models 
           type: foreign
     #Time Dimensions
-      - name: booking_date
+#Note: You cant add cast or date convertions in new semantic layer you should add it in sql model itself
+      - name: booking_date  
         granularity: day
         dimension:
           type: time
-      
+        config:
+          meta:
+            metricflow:
+#this is the configuration we are telling the model to use as primary time, in group by we are using 
+#group-by --booking_date__year instead of this we can use group-by --metric_time__year
+              primary_time: true    
+              
       - name: booking_created_at
         granularity: day
         dimension:
@@ -270,3 +277,17 @@ metrics:
 #The group_by inside your YAML (filter): This only tells dbt the logic it should use to decide which rows to keep. 
 #It's like a subquery. It calculates: "Which listingids have > 11 bookings?"
 #The Query group_by (Command Line): This tells dbt the structure of the table you want to see.
+
+
+#metricflow
+#This configuration is the "Shortcut Key" for your time-based metrics. 
+#By marking a specific dimension as primary_time: true,
+#you are telling the dbt Semantic Layer that this is the official timeline for this model.
+#1. It enables the metric_time shortcut
+#If you have primary_time: true set on booking_date, you no longer have to type out the long, annoying entity prefixes in your terminal.
+#Without it: dbt sl query --metrics ... --group-by bookingid__booking_date__day
+#With it: dbt sl query --metrics ... --group-by metric_time__day
+#dbt will automatically map metric_time to whatever column has that primary_time flag.
+#2. It solves "Join Ambiguity"
+#If your model has multiple dates (e.g., booking_date, created_at, updated_at), and you ask for a "Weekly Total," dbt won't know which date to use for the weekly reset.
+#Setting primary_time: true tells dbt: "When in doubt, use this column to aggregate my numbers."
