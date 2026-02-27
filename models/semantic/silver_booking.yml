@@ -118,6 +118,18 @@ models:
         type: cumulative
         input_metric: sum_of_booking_amount
         grain_to_date: day
+      
+      - name: prev_month_revenue
+        type: cumulative
+        input_metric: sum_of_booking_amount
+        window: 1 month
+        
+      - name: monthly_growth_pct
+        type: ratio
+        numerator: sum_of_booking_amount - prev_month_revenue
+        denominator: prev_month_revenue
+
+
 
   - name: silver_listings
     description: "Consolidated model property file"
