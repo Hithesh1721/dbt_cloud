@@ -348,4 +348,47 @@ metrics:
 #If your model has multiple dates (e.g., booking_date, created_at, updated_at), and you ask for a "Weekly Total," dbt won't know which date to use for the weekly reset.
 #Setting primary_time: true tells dbt: "When in doubt, use this column to aggregate my numbers."
 
-
+saved_queries:
+ 
+  - name: current_day_orders
+    query_params:
+      metrics:
+        - sum_of_booking_amount
+      group_by:
+        - "Dimension('booking_id__booking_status')"
+      where:
+        - "{{ Dimensions('booking_id__booking_date','DAY') }} = now()"
+    exports:
+      - name: current_day_orders
+        config:
+          export_as: table
+          schema: gold
+  - name: current_day_orders_2
+    query_params:
+      metrics:
+        - sum_of_booking_amount
+      group_by:
+        - "Dimension('booking_id__booking_status')"
+      where:
+        - "{{ Dimensions('booking_id__booking_date','DAY') }} = now()"
+    exports:
+      - name: current_day_orders_2
+        config:
+          export_as: table
+          schema: gold
+          
+  - name: mon_on_mon_pct
+    query_params:
+      metrics:
+        - monthly_growth_pct
+        - revenue_mtd_cumulative
+        - revenue_mtd_cumulative_lag
+      group_by:
+        - TimeDimension('metric_time', 'year')
+        - TimeDimension('metric_time', 'month')
+    exports:
+      - name: fact_monthly_revenue_growth
+        config:
+          export_as: table
+          schema: gold
+ 
