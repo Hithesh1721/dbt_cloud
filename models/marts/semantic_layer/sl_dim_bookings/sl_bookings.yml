@@ -70,9 +70,8 @@ models:
         type: simple
         agg: count_distinct
         expr: booking_id
-        config: 
-          meta:
-            enabled: false
+        config:
+          enabled: false
 
 
       - name: count_of_booking_confirmed
@@ -81,9 +80,8 @@ models:
         expr: booking_id
         filter: |
          {{ Dimension('bookingid__booking_status') }} ='confirmed'
-        config: 
-          meta:
-            enabled: false
+        config:
+          enabled: false
 
 
       - name: count_of_booking_cancelled
@@ -92,10 +90,10 @@ models:
         expr: booking_id
         filter: |
          {{ Dimension('bookingid__booking_status') }} ='cancelled'
-        config: 
-          meta:
+        config:
+          enabled: true
+          meta:  # meta block is just notes
             status: certified
-            enabled: true
             certified_by: "Lead Data Architect"
             certified_on: "2026-03-04"
             certificate_verifying_user: "your_user_id" 
