@@ -85,6 +85,8 @@ models:
 
 
       - name: count_of_booking_cancelled
+        label: "Count of Bookings Cancelled"
+        description: "Count of bookings were cancelled"
         type: simple
         agg: count
         expr: booking_id
