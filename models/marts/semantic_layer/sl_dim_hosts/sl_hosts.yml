@@ -53,7 +53,7 @@ models:
         agg: count_distinct
         expr: host_id
         config:
-          enabled: false
+          enabled: true
 
 
       - name: count_of_very_good_hosts
