@@ -85,13 +85,13 @@ models:
         config:
           enabled: false
 
-# left
-      - name: count_of_host_with_zero_bookings
+      - name: bookings_per_host_inclusive
         type: derived
-        expr: coalesce(cnt_m,0)
-        input_metrics: 
-          - name : count_of_booking_id_against_host
-            alias: cnt_m
-        fill_nulls_with: 0
+        expr: coalesce(count_of_booking_id_against_host,0)
+        input_metrics:
+          - name: count_of_booking_id_against_host
+          - name: count_of_hosts
         config:
-          enabled: true
+          enabled: false
+
+
