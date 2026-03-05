@@ -87,7 +87,7 @@ models:
 
       - name: count_of_host_with_zero_bookings
         type: derived
-        expr: colease(cnt_m,0)
+        expr: coalesce(cnt_m,0)
         input_metrics: 
           - name : count_of_booking_id_against_host
             alias: cnt_m
