@@ -93,6 +93,6 @@ models:
             alias: cnt_of_bkm_amt
           - name: count_of_hosts
         config:
-          enabled: false
+          enabled: true
 
 
