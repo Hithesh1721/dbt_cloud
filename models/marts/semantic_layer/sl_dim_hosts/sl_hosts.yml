@@ -85,6 +85,7 @@ models:
         config:
           enabled: false
 
+# left
       - name: count_of_host_with_zero_bookings
         type: derived
         expr: coalesce(cnt_m,0)
